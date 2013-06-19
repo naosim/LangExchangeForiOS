@@ -1,0 +1,64 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"> 
+<meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8">
+<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+<style type="text/css">
+textarea {
+width: 100%;
+height: 10em;
+}
+#errorArea {
+	color: red;
+}
+</style>
+<script type="text/javascript" src="js/LangExchangeForiOS.js"></script>
+</head>
+<body>
+<div class="container">
+	<h1>LangExchange for iOS</h1>
+	<p>iOSの各言語ファイルのチェック&amp;並び順を整形するツールです。</p>
+	<h3>(1)元になる文言</h3>
+	<textarea id="originalLangArea"></textarea>
+	<br />
+
+	<h3>(2)並び替える文言</h3>
+	<textarea id="otherLangArea"></textarea>
+	<br />
+	<a class="btn btn-large btn-success" href="#" id="exchangeButton">出力する</a><br />
+	<br />
+	<h3>結果</h3>
+	<textarea id="outputArea"></textarea>
+	<br />
+
+	<div id="errorArea"></div>
+	<hr />
+	<p>node.js版もあるよ。</p>
+	<p>こんな感じで使えて便利だよ。</p>
+	<pre>node exchange.js original.strings target.strings output.strings</pre>
+</div>
+
+<script type="text/javascript">
+exchangeButton.addEventListener('click', function(){
+	var error = [];
+	outputArea.value = exchange(originalLangArea.value, otherLangArea.value, error);
+	outputError(error);
+});
+
+var outputError = function(error) {
+	if(error.length <= 0) {
+		errorArea.innerHTML = '';
+		return;
+	}
+	var value = '<h3>警告</h3><table class="table table-striped table-bordered">';
+	for(var i = 0; i < error.length; i++) value += '<tr><td>' + error[i].message + '</td></tr>\n';
+	value += '</table>';
+	errorArea.innerHTML = value;
+};
+</script>
+<!--
+<script src="http://code.jquery.com/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+-->
+</body>
+</html>
